@@ -5,7 +5,6 @@ import ReactPlayer from 'react-player';
 const VideoPlayer = ({ videos, onLike, onComment }) => {
     const { id } = useParams();
     const video = videos.find(v => v.id === parseInt(id));
-
     const [commentInput, setCommentInput] = React.useState("");
 
     const handleAddComment = () => {
@@ -34,7 +33,7 @@ const VideoPlayer = ({ videos, onLike, onComment }) => {
                 />
                 <button onClick={handleAddComment}>Post</button>
                 <ul>
-                    {video?.comments.map((c) => (
+                    {video?.comments && video?.comments.length > 0 && video?.comments.map((c) => (
                         <li key={c.id}>{c.text}</li>
                     ))}
                 </ul>
