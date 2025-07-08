@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from '../src/component/Home';
+import Login from './component/Loginpage';
+import VideoPlayer from '../src/component/Videoplayer';
+import rawVideos from './assets/VideosData';
+import WatchlistVideos from './pages/Users/UserWatchList';
+import LikedVideos from './pages/Users/LikedVideos';
 
-function App() {
+const App = () => {
+  const [videos, setVideos] = useState(rawVideos);
+
+  const updateLikes = (id) => {
+    setVideos(prev =>
+      prev.map(video =>
+        video.id === id ? { ...video, likes: video.likes + 1 } : video
+      )
+    );
+  };
+
+  const addComment = (id, text) => {
+    setVideos(prev =>
+      prev.map(video =>
+        video.id === id
+          ? { ...video, comments: [...video.comments, { id: Date.now(), text }] }
+          : video
+      )
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path="/" element={<Home videos={videos} />} />
+        <Route
+          path="/video/:id"
+          element={<VideoPlayer videos={videos} onLike={updateLikes} onComment={addComment} />}
+        />
+        <Route path='/watchlist' element={<WatchlistVideos />} />
+        <Route path='/likedlist' element={<LikedVideos />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
