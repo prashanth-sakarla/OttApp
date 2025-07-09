@@ -18,7 +18,8 @@ const Login = ({ onLogin }) => {
         )
 
         if (matchedUser) {
-            navigate('/')
+            navigate('/');
+            localStorage.setItem('isLoggedIn', 'true');
         } else {
             setError('Invalid credentials')
         }
