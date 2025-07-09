@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import { FiLogOut } from 'react-icons/fi';
 import '../App.css';
 
 const Home = ({ videos }) => {
@@ -14,6 +15,10 @@ const Home = ({ videos }) => {
     const filteredVideos = videos.filter(video =>
         video.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const hanldeLogOut = () => {
+        localStorage.clear();
+        navigate('/login')
+    }
 
     return (
         <div className="container">
@@ -37,6 +42,10 @@ const Home = ({ videos }) => {
                     <ul>
                         <li onClick={() => navigate('/watchlist')}>📺 Watchlist</li>
                         <li onClick={() => navigate('/likedlist')}>❤️ Liked Videos</li>
+                        <li onClick={hanldeLogOut}>
+                            <FiLogOut style={{ marginRight: '8px' }} />
+                            Log Out
+                        </li>
                     </ul>
                 </div>
             )}
